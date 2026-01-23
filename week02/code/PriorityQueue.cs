@@ -1,10 +1,13 @@
-﻿public class PriorityQueue
+﻿using System;
+using System.Collections.Generic;
+
+public class PriorityQueue
 {
     private List<PriorityItem> _queue = new();
 
     /// <summary>
-    /// Add a new value to the queue with an associated priority.  The
-    /// node is always added to the back of the queue regardless of 
+    /// Add a new value to the queue with an associated priority.  
+    /// The node is always added to the back of the queue regardless of 
     /// the priority.
     /// </summary>
     /// <param name="value">The value</param>
@@ -22,16 +25,20 @@
             throw new InvalidOperationException("The queue is empty.");
         }
 
-        // Find the index of the item with the highest priority to remove
-        var highPriorityIndex = 0;
-        for (int index = 1; index < _queue.Count - 1; index++)
+        // Find the index of the item with the highest priority (first one if tie)
+        int highPriorityIndex = 0;
+        for (int i = 1; i < _queue.Count; i++)
         {
-            if (_queue[index].Priority >= _queue[highPriorityIndex].Priority)
-                highPriorityIndex = index;
+            if (_queue[i].Priority > _queue[highPriorityIndex].Priority)
+            {
+                highPriorityIndex = i;
+            }
+            // if equal priority, keep the first one (FIFO)
         }
 
         // Remove and return the item with the highest priority
-        var value = _queue[highPriorityIndex].Value;
+        string value = _queue[highPriorityIndex].Value;
+        _queue.RemoveAt(highPriorityIndex); // actually remove it
         return value;
     }
 
