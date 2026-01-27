@@ -21,9 +21,25 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+ var wordSet = new HashSet<string>(words); 
+    var result = new List<string>();
+
+    foreach (var word in words)
+    {
+        if (word[0] == word[1])
+            continue;
+
+        var reversed = $"{word[1]}{word[0]}";
+
+        if (wordSet.Contains(reversed))
+        {
+            result.Add($"{word} & {reversed}");
+            wordSet.Remove(word);
+            wordSet.Remove(reversed);
+        }
     }
+
+    return result.ToArray();    }
 
     /// <summary>
     /// Read a census file and summarize the degrees (education)
